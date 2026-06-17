@@ -1,9 +1,12 @@
 const fs = require("node:fs");
 const path = require("node:path");
+const { execFileSync } = require("node:child_process");
 
 const projectRoot = path.resolve(__dirname, "..");
 const outputDir = path.join(projectRoot, "dist", "cloudflare-pages");
 const nextOutDir = path.join(projectRoot, "out");
+
+execFileSync(process.execPath, [path.join(projectRoot, "tools", "process-logo.js")], { stdio: "inherit" });
 
 if (fs.existsSync(outputDir)) {
   const resolvedOutputDir = fs.realpathSync(outputDir);
