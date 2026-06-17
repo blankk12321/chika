@@ -1,0 +1,17 @@
+[Unit]
+Description=ACT independent website
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/var/www/act-site
+Environment=NODE_ENV=production
+EnvironmentFile=/var/www/act-site/.env
+ExecStart=/usr/bin/node /var/www/act-site/server.js
+Restart=always
+RestartSec=5
+User=www-data
+Group=www-data
+
+[Install]
+WantedBy=multi-user.target

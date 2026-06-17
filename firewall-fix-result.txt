@@ -1,0 +1,9 @@
+﻿
+DisplayName                              Enabled Direction Action Profile
+-----------                              ------- --------- ------ -------
+codex_sandbox_offline_block_loopback_udp   False  Outbound  Block     Any
+codex_sandbox_offline_block_loopback_tcp   False  Outbound  Block     Any
+codex_sandbox_offline_block_outbound       False  Outbound  Block     Any
+
+
+

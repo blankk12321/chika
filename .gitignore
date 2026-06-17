@@ -1,0 +1,15 @@
+.env
+node_modules/
+.next/
+out/
+dist/
+chika-cloudflare-pages.zip
+wrangler-login-output.txt
+wrangler-login-error.txt
+.deploy-tools/
+vendor_pdfium_ascii/
+vendor_pypdfium2/
+*.tsbuildinfo
+__pycache__/
+*.pyc
+tsconfig.tsbuildinfo

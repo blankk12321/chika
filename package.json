@@ -1,0 +1,27 @@
+{
+  "name": "act-independent-site",
+  "private": true,
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "node deploy/build-cloudflare-pages.js",
+    "build:cloudflare": "node deploy/build-cloudflare-pages.js",
+    "build:next": "next build && node deploy/build-cloudflare-pages.js",
+    "typecheck": "tsc --noEmit",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "next": "15.3.4",
+    "react": "19.1.0",
+    "react-dom": "19.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "22.15.32",
+    "@types/react": "19.1.8",
+    "@types/react-dom": "19.1.6",
+    "typescript": "5.8.3",
+    "wrangler": "^4.101.0"
+  }
+}

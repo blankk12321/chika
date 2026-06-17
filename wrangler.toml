@@ -1,0 +1,19 @@
+name = "chika-act-rfq"
+main = "workers/rfq-worker.js"
+compatibility_date = "2026-06-16"
+
+[vars]
+ALLOWED_ORIGIN = "https://www.chikatech.com"
+RFQ_TO_EMAIL = "yunimentalworking@gmail.com"
+RFQ_FROM_EMAIL = "Chika ACT RFQ <rfq@chikatech.com>"
+
+# Optional KV binding for RFQ record retention.
+# Create a namespace first, then uncomment and fill the IDs:
+#
+# [[kv_namespaces]]
+# binding = "RFQ_KV"
+# id = "replace-with-production-kv-namespace-id"
+# preview_id = "replace-with-preview-kv-namespace-id"
+#
+# Required secret for email notification:
+# wrangler secret put RESEND_API_KEY
