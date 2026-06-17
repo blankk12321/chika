@@ -19,10 +19,14 @@
 }
 
 html {
+  width: 100%;
+  overflow-x: hidden;
   scroll-behavior: smooth;
 }
 
 body {
+  width: 100%;
+  overflow-x: hidden;
   margin: 0;
   background: var(--bg);
   color: var(--text);
@@ -39,6 +43,7 @@ a {
 img {
   display: block;
   width: 100%;
+  max-width: 100%;
   height: 100%;
   object-fit: cover;
 }
@@ -61,6 +66,11 @@ img {
   display: flex;
   align-items: center;
   gap: 12px;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.brand span {
   min-width: 0;
 }
 
@@ -80,6 +90,7 @@ img {
 .brand strong {
   font-size: 17px;
   line-height: 1.1;
+  overflow-wrap: anywhere;
 }
 
 .brand em {
@@ -87,6 +98,7 @@ img {
   color: var(--muted);
   font-size: 12px;
   font-style: normal;
+  overflow-wrap: anywhere;
 }
 
 .main-nav {
@@ -771,6 +783,8 @@ td {
 @media (max-width: 600px) {
   .site-header {
     grid-template-columns: 1fr;
+    gap: 14px;
+    padding: 18px;
   }
 
   .nav-toggle {
@@ -778,16 +792,7 @@ td {
   }
 
   .header-contact {
-    display: grid;
-    grid-template-columns: 1fr;
-    width: 100%;
-  }
-
-  .header-contact a {
-    justify-content: center;
-    width: 100%;
-    white-space: normal;
-    text-align: center;
+    display: none;
   }
 
   .hero h1 {
