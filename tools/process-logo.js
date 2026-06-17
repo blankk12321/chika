@@ -12,7 +12,6 @@ const outputs = [
 
 async function main() {
   const { data, info } = await sharp(source)
-    .extract({ left: 345, top: 185, width: 565, height: 605 })
     .ensureAlpha()
     .raw()
     .toBuffer({ resolveWithObject: true });
@@ -21,7 +20,7 @@ async function main() {
     const r = data[i];
     const g = data[i + 1];
     const b = data[i + 2];
-    if (r < 70 && g < 70 && b < 85) {
+    if (r < 40 && g < 45 && b < 55) {
       data[i + 3] = 0;
     }
   }
