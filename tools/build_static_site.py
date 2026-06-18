@@ -186,13 +186,23 @@ def nav(current: str, logo: str) -> str:
         <img src="{root_href(logo)}" alt="CHIKA Manufacturing logo">
         <span><strong>CHIKA Manufacturing</strong><em>Precision Injection Molding & Integrated Manufacturing</em></span>
       </a>
-      <button class="nav-toggle" type="button" data-nav-toggle aria-label="Open navigation">Menu</button>
-      <nav class="main-nav" data-main-nav>{links}</nav>
+      <button class="nav-toggle" type="button" data-nav-toggle aria-label="Open navigation" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="main-nav" data-main-nav>
+        {links}
+        <div class="mobile-drawer-contact" aria-label="Mobile RFQ contact">
+          <a href="mailto:yunimentalworking@gmail.com">Email Contact</a>
+          <a href="https://wa.me/8618938580209">WhatsApp Contact</a>
+          <a class="mobile-rfq" href="{root_href('request-a-quote/index.html')}">Request a Quote</a>
+        </div>
+      </nav>
       <div class="header-contact" aria-label="RFQ contact">
         <a href="mailto:yunimentalworking@gmail.com">Email Contact</a>
         <a href="https://wa.me/8618938580209">WhatsApp Contact</a>
       </div>
     </header>
+    <div class="nav-backdrop" data-nav-backdrop></div>
     """
 
 

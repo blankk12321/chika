@@ -1,12 +1,24 @@
 const navToggle = document.querySelector("[data-nav-toggle]");
 const mainNav = document.querySelector("[data-main-nav]");
+const navBackdrop = document.querySelector("[data-nav-backdrop]");
 const rfqForm = document.querySelector("[data-rfq-form]");
 const formStatus = document.querySelector("[data-form-status]");
 const contactEmail = "yunimentalworking@gmail.com";
 const contactWhatsapp = "+86 18938580209";
 
 navToggle?.addEventListener("click", () => {
-  mainNav?.classList.toggle("open");
+  const isOpen = !mainNav?.classList.contains("open");
+  setNavigationState(isOpen);
+});
+
+navBackdrop?.addEventListener("click", () => {
+  setNavigationState(false);
+});
+
+mainNav?.addEventListener("click", (event) => {
+  if (event.target.closest("a")) {
+    setNavigationState(false);
+  }
 });
 
 document.addEventListener("click", (event) => {
@@ -20,8 +32,17 @@ document.addEventListener("click", (event) => {
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape") {
     closeLightbox();
+    setNavigationState(false);
   }
 });
+
+function setNavigationState(isOpen) {
+  mainNav?.classList.toggle("open", isOpen);
+  navBackdrop?.classList.toggle("open", isOpen);
+  navToggle?.classList.toggle("is-open", isOpen);
+  navToggle?.setAttribute("aria-expanded", String(isOpen));
+  document.body.classList.toggle("nav-open", isOpen);
+}
 
 rfqForm?.addEventListener("submit", async (event) => {
   event.preventDefault();
