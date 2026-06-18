@@ -48,6 +48,8 @@ RFQ_LOG_URL=<optional>
 RFQ_KV=<KV binding for stored RFQ records>
 ```
 
+Resend requires `chikatech.com` to be verified before `rfq@chikatech.com` can send to both RFQ recipients. Until the domain is verified in Resend, RFQs are still stored in Cloudflare KV.
+
 ## DNS
 
 Add or update Cloudflare DNS according to Pages custom-domain setup:

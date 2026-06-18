@@ -56,6 +56,6 @@ RFQ_LOG_URL=<optional external logging endpoint>
 RFQ_KV=<KV namespace binding for stored RFQ records>
 ```
 
-Without `RESEND_API_KEY`, the Worker still validates and accepts RFQs but only logs the request. The frontend also provides direct email and WhatsApp fallback details.
+Without `RESEND_API_KEY`, the Worker still validates and accepts RFQs but only logs the request. If `chikatech.com` is not verified in Resend, RFQs are still stored in Cloudflare KV while email delivery is blocked by Resend.
 
 Cloudflare Pages static hosting cannot run the legacy Node.js `server.js` Feishu webhook endpoint. Keep `server.js` only as a legacy local helper unless the VPS deployment path is used again.

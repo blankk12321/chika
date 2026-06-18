@@ -7,12 +7,9 @@ ALLOWED_ORIGIN = "https://www.chikatech.com"
 RFQ_TO_EMAIL = "yunimentalworking@gmail.com,blankk12321@gmail.com"
 RFQ_FROM_EMAIL = "Chika ACT RFQ <rfq@chikatech.com>"
 
-# KV binding for RFQ record retention.
-# Create the namespace in Cloudflare, then fill the IDs below:
-# [[kv_namespaces]]
-# binding = "RFQ_KV"
-# id = "replace-with-production-kv-namespace-id"
-# preview_id = "replace-with-preview-kv-namespace-id"
-#
+[[kv_namespaces]]
+binding = "RFQ_KV"
+id = "bf41ab14ed3144abbc49a743b61f5b6d"
+
 # Required secret for email notification:
 # wrangler secret put RESEND_API_KEY
