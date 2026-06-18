@@ -64,7 +64,7 @@
           <label>Material<input name="material" placeholder="ABS, PC, SECC..."></label>
           <label>Estimated Qty<input name="annualVolume" placeholder="e.g. 1,000 pcs"></label>
           <label>Surface Finish<input name="surfaceFinish" placeholder="Texture, plating, painting..."></label>
-          <label class="full-field">Upload 3D / 2D CAD Files<input name="drawingUpload" type="file"></label>
+          <label class="full-field">Upload your drawings or project files <span class="field-hint">Supported formats: PDF, STEP, STP, IGES, DXF, DWG, JPG, PNG, ZIP. Max file size: 30MB per file, up to 5 files. For packages over 100MB, please email us.</span><input name="drawingUpload" type="file" multiple accept=".pdf,.step,.stp,.iges,.igs,.dxf,.dwg,.jpg,.jpeg,.png,.zip"></label>
           <label class="full-field">Project Details<textarea name="message" rows="5" placeholder="Describe tolerances, finish, assembly, testing, packaging or launch timing..." required></textarea></label>
           <input type="text" name="website" class="website-field" tabindex="-1" autocomplete="off" aria-hidden="true">
           <button class="button primary full" type="submit">Submit RFQ for Free DFM Review</button>

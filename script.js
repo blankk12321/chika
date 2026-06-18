@@ -5,6 +5,9 @@ const rfqForm = document.querySelector("[data-rfq-form]");
 const formStatus = document.querySelector("[data-form-status]");
 const contactEmail = "yunimentalworking@gmail.com";
 const contactWhatsapp = "+86 18938580209";
+const maxAttachmentFiles = 5;
+const maxAttachmentFileBytes = 30 * 1024 * 1024;
+const maxAttachmentTotalBytes = 100 * 1024 * 1024;
 
 navToggle?.addEventListener("click", () => {
   const isOpen = !mainNav?.classList.contains("open");
@@ -77,6 +80,8 @@ rfqForm?.addEventListener("submit", async (event) => {
       throw new Error("Please enter your name, company email, and requirement summary.");
     }
 
+    payload.attachments = await readRfqAttachments(rfqForm);
+
     const response = await fetch("/api/rfq", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -105,6 +110,7 @@ rfqForm?.addEventListener("submit", async (event) => {
       `Surface finish: ${payload.surfaceFinish || ""}`,
       `Message: ${payload.message || ""}`,
       `Page: ${payload.pageUrl || ""}`,
+      payload.attachments?.length ? `Attachments: ${payload.attachments.map((file) => file.filename).join(", ")}` : "Attachments: not included in fallback email",
     ].join("\n");
 
     window.location.href = `mailto:${contactEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
@@ -116,6 +122,44 @@ rfqForm?.addEventListener("submit", async (event) => {
     submitButton.disabled = false;
   }
 });
+
+async function readRfqAttachments(form) {
+  const files = [...form.querySelector('input[type="file"]')?.files || []].filter((file) => file.size > 0);
+  const totalBytes = files.reduce((sum, file) => sum + file.size, 0);
+
+  if (files.length > maxAttachmentFiles) {
+    throw new Error(`Please upload up to ${maxAttachmentFiles} files. For larger file packages, email ${contactEmail}.`);
+  }
+
+  const oversizedFile = files.find((file) => file.size > maxAttachmentFileBytes);
+  if (oversizedFile) {
+    throw new Error(`${oversizedFile.name} is over 30 MB. Please compress it, split the package, or email ${contactEmail}.`);
+  }
+
+  if (totalBytes > maxAttachmentTotalBytes) {
+    throw new Error(`Your uploaded files are over 100 MB total. Please email large CAD packages to ${contactEmail}.`);
+  }
+
+  return Promise.all(files.map(readFileAsAttachment));
+}
+
+function readFileAsAttachment(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.addEventListener("load", () => {
+      const result = String(reader.result || "");
+      const content = result.includes(",") ? result.split(",").pop() : "";
+      resolve({
+        filename: file.name,
+        contentType: file.type || "application/octet-stream",
+        size: file.size,
+        content,
+      });
+    });
+    reader.addEventListener("error", () => reject(new Error(`Could not read ${file.name}. Please try again.`)));
+    reader.readAsDataURL(file);
+  });
+}
 
 function setFormStatus(message, state) {
   if (!formStatus) return;

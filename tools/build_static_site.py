@@ -217,6 +217,33 @@ def page_shell(title: str, description: str, current: str, logo: str, body: str,
     <title>{esc(title)}</title>
     <meta name="description" content="{esc(description[:158])}">
     <link rel="stylesheet" href="{root_href('styles.css')}">
+    <script type="application/ld+json">
+{{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "CHIKA Manufacturing",
+  "image": "https://chikatech.com/assets/images/brand/chika-logo.png",
+  "url": "https://chikatech.com",
+  "telephone": "+86-18938580209",
+  "address": {{
+    "@type": "PostalAddress",
+    "addressLocality": "Dongguan",
+    "addressRegion": "Guangdong",
+    "postalCode": "523000",
+    "addressCountry": "CN"
+  }},
+  "description": "ISO-certified Dongguan manufacturing base specializing in precision injection molding, custom mold tooling, and metal-plastic integrated manufacturing.",
+  "knowsAbout": [
+    "Precision Injection Molding",
+    "Injection Mold Tooling",
+    "Metal-Plastic Manufacturing",
+    "Sheet Metal Fabrication",
+    "DFM (Design for Manufacturability) Review",
+    "Custom Plastic Enclosures",
+    "Insert Molding"
+  ]
+}}
+    </script>
   </head>
   <body>
     {nav(current, logo)}
@@ -242,7 +269,7 @@ def hero(title: str, subtitle: str, image: str, primary: str = "Request a Quote"
     secondary_label = "Request a Quote" if secondary and "request-a-quote" in secondary else "View Factory Strength"
     second = f'<a class="button ghost" href="{root_href(secondary)}">{secondary_label}</a>' if secondary else ""
     trust_note = (
-        '\n          <p class="hero-trust-note">Upload 3D files (STEP/STP). Confidential DFM feedback within 24 hours.</p>'
+        '\n          <p class="hero-trust-note">Upload your 3D files (STEP/STP). Complete confidentiality guaranteed with instant NDA.</p>'
         if show_trust_note else ""
     )
     return f"""
@@ -324,17 +351,17 @@ def gallery(images: list[str], label: str) -> str:
 def product_gallery(images: list[str]) -> str:
     titles = [
         "Precision Electronic Enclosure",
-        "Custom Insert-Molded Component",
-        "Industrial Plastic Housing",
-        "Consumer Electronics Shell",
-        "Two-Shot Molded Cover",
-        "Metal-Plastic Structural Bracket",
-        "Acoustic Device Housing",
-        "Wearable Product Component",
-        "Precision Plastic Button Assembly",
-        "Overmolded Connector Housing",
-        "Small-Batch Prototype Part",
-        "Production-Ready Plastic Component",
+        "Custom Injection Molded Component",
+        "Metal-Plastic Integrated Assembly",
+        "High-Precision Molded Housing",
+        "Custom Industrial Plastic Part",
+        "Overmolded Consumer Electronics Component",
+        "Tight-Tolerance Engineering Plastic Part",
+        "Custom Medical Device Housing",
+        "Complex Mold Tooling Specimen",
+        "Automotive Grade Molded Component",
+        "Thin-Wall Plastic Enclosure",
+        "Threaded Plastic Insert Component",
     ]
     figures = []
     for i, img in enumerate(images):
@@ -394,7 +421,7 @@ def rfq_panel() -> str:
           <label>Material<input name="material" placeholder="ABS, PC, SECC..."></label>
           <label>Estimated Qty<input name="annualVolume" placeholder="e.g. 1,000 pcs"></label>
           <label>Surface Finish<input name="surfaceFinish" placeholder="Texture, plating, painting..."></label>
-          <label class="full-field">Upload 3D / 2D CAD Files<input name="drawingUpload" type="file"></label>
+          <label class="full-field">Upload your drawings or project files <span class="field-hint">Supported formats: PDF, STEP, STP, IGES, DXF, DWG, JPG, PNG, ZIP. Max file size: 30MB per file, up to 5 files. For packages over 100MB, please email us.</span><input name="drawingUpload" type="file" multiple accept=".pdf,.step,.stp,.iges,.igs,.dxf,.dwg,.jpg,.jpeg,.png,.zip"></label>
           <label class="full-field">Project Details<textarea name="message" rows="5" placeholder="Describe tolerances, finish, assembly, testing, packaging or launch timing..." required></textarea></label>
           <input type="text" name="website" class="website-field" tabindex="-1" autocomplete="off" aria-hidden="true">
           <button class="button primary full" type="submit">Submit RFQ for Free DFM Review</button>
@@ -485,7 +512,7 @@ def build_pages(assets: dict[str, list[str]], logo: str) -> None:
     )
     home += section(
         "Product Display",
-        "Representative plastic, metal-plastic and assembled product examples for OEM sourcing evaluation.",
+        "Precision Custom Components Engineered for Global Hardware Teams.",
         product_gallery(product_display_images),
     )
     home += section(

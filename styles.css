@@ -284,11 +284,12 @@ img {
 
 .hero-trust-note {
   max-width: 520px;
-  margin: -18px 0 0;
+  margin: 12px 0 0;
   color: var(--soft);
-  font-size: 12px;
+  font-size: 0.85rem;
   font-weight: 720;
   line-height: 1.45;
+  opacity: 0.8;
 }
 
 .hero-media {
@@ -465,7 +466,7 @@ a.image-card:hover {
 
 .gallery-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
   gap: 16px;
   width: 100%;
   max-width: 100%;
@@ -666,6 +667,14 @@ td {
   font-weight: 850;
   letter-spacing: 0.02em;
   text-transform: uppercase;
+}
+
+.field-hint {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 650;
+  letter-spacing: 0;
+  text-transform: none;
 }
 
 .rfq-form input,
@@ -910,8 +919,8 @@ td {
   }
 
   .hero-trust-note {
-    margin-top: -18px;
-    font-size: 11px;
+    margin-top: 10px;
+    font-size: 0.8rem;
   }
 
   .stat-grid,
