@@ -178,7 +178,7 @@ img {
   display: block;
   width: 21px;
   height: 2px;
-  margin: 4px auto;
+  margin: 0;
   border-radius: 999px;
   background: var(--text);
   transition: transform 0.2s ease, opacity 0.2s ease;
@@ -757,6 +757,8 @@ td {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
+    gap: 4px;
   }
 
   .main-nav {
@@ -901,6 +903,26 @@ td {
     padding: 52px 18px;
   }
 
+  .section.dense {
+    padding-top: 34px;
+    padding-bottom: 34px;
+  }
+
+  .section.dense .section-head {
+    margin-bottom: 18px;
+  }
+
+  .section.dense h2 {
+    font-size: 28px;
+    line-height: 1.08;
+  }
+
+  .section.dense .section-head p {
+    margin-top: 10px;
+    font-size: 14px;
+    line-height: 1.45;
+  }
+
   .brand {
     gap: 10px;
   }
@@ -924,13 +946,13 @@ td {
   }
 
   .stat-grid article {
-    min-height: 96px;
-    padding: 16px 18px;
+    min-height: 88px;
+    padding: 14px 16px;
     border-radius: 10px;
   }
 
   .stat-grid strong {
-    font-size: 34px;
+    font-size: 30px;
   }
 
   .stat-grid span {

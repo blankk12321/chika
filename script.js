@@ -16,8 +16,18 @@ navBackdrop?.addEventListener("click", () => {
 });
 
 mainNav?.addEventListener("click", (event) => {
-  if (event.target.closest("a")) {
-    setNavigationState(false);
+  const link = event.target.closest("a");
+  if (!link) return;
+
+  setNavigationState(false);
+
+  const href = link.getAttribute("href") || "";
+  const isExternalAction = href.startsWith("mailto:") || href.startsWith("tel:") || href.includes("wa.me");
+  const opensElsewhere = link.target && link.target !== "_self";
+
+  if (!isExternalAction && !opensElsewhere) {
+    event.preventDefault();
+    window.location.href = link.href;
   }
 });
 
