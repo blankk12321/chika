@@ -238,9 +238,13 @@ def page_shell(title: str, description: str, current: str, logo: str, body: str,
 """
 
 
-def hero(title: str, subtitle: str, image: str, primary: str = "Request a Quote", secondary: str | None = None) -> str:
+def hero(title: str, subtitle: str, image: str, primary: str = "Request a Quote", secondary: str | None = None, show_trust_note: bool = False) -> str:
     secondary_label = "Request a Quote" if secondary and "request-a-quote" in secondary else "View Factory Strength"
     second = f'<a class="button ghost" href="{root_href(secondary)}">{secondary_label}</a>' if secondary else ""
+    trust_note = (
+        '\n          <p class="hero-trust-note">Upload 3D files (STEP/STP). Confidential DFM feedback within 24 hours.</p>'
+        if show_trust_note else ""
+    )
     return f"""
       <section class="hero">
         <div class="hero-copy">
@@ -250,7 +254,7 @@ def hero(title: str, subtitle: str, image: str, primary: str = "Request a Quote"
           <div class="hero-actions">
             <a class="button primary" href="{root_href('request-a-quote/index.html')}">{esc(primary)}</a>
             {second}
-          </div>
+          </div>{trust_note}
         </div>
         <div class="hero-media">
           <img src="{root_href(image)}" alt="{esc(title)}">
@@ -315,6 +319,30 @@ def gallery(images: list[str], label: str) -> str:
         f'<figure><a class="zoomable" href="{root_href(img)}" data-lightbox><img src="{root_href(img)}" alt="{esc(label)} {i}"></a><figcaption>{esc(Path(img).stem.replace("-", " ").title())}</figcaption></figure>'
         for i, img in enumerate(images, start=1)
     ) + "</div>"
+
+
+def product_gallery(images: list[str]) -> str:
+    titles = [
+        "Precision Electronic Enclosure",
+        "Custom Insert-Molded Component",
+        "Industrial Plastic Housing",
+        "Consumer Electronics Shell",
+        "Two-Shot Molded Cover",
+        "Metal-Plastic Structural Bracket",
+        "Acoustic Device Housing",
+        "Wearable Product Component",
+        "Precision Plastic Button Assembly",
+        "Overmolded Connector Housing",
+        "Small-Batch Prototype Part",
+        "Production-Ready Plastic Component",
+    ]
+    figures = []
+    for i, img in enumerate(images):
+        title = titles[i] if i < len(titles) else f"Custom Molded Component {i + 1}"
+        figures.append(
+            f'<figure><a class="zoomable" href="{root_href(img)}" data-lightbox><img src="{root_href(img)}" alt="{esc(title)}"></a><figcaption>{esc(title)}</figcaption></figure>'
+        )
+    return '<div class="gallery-grid product-gallery">' + "".join(figures) + "</div>"
 
 
 def equipment_table(groups: list[str] | None = None) -> str:
@@ -442,6 +470,7 @@ def build_pages(assets: dict[str, list[str]], logo: str) -> None:
         hero_img,
         "Request a Quote",
         "factory-strength/index.html",
+        True,
     )
     home += section("One-Stop Manufacturing Capacity", "A supplier-screening snapshot built for US hardware teams and purchasing managers.", stat_grid(CHIKA_DATA["stats"]), "dense")
     home += section(
@@ -456,8 +485,8 @@ def build_pages(assets: dict[str, list[str]], logo: str) -> None:
     )
     home += section(
         "Product Display",
-        "All prepared product display images are shown here as a direct visual entry for buyers.",
-        gallery(product_display_images, "CHIKA product display"),
+        "Representative plastic, metal-plastic and assembled product examples for OEM sourcing evaluation.",
+        product_gallery(product_display_images),
     )
     home += section(
         "Factory Proof",
@@ -565,7 +594,7 @@ def build_pages(assets: dict[str, list[str]], logo: str) -> None:
     shuffled_products = product_display_images[::2] + product_display_images[1::2]
     products = hero("Product Display", "Showroom first, product displays in a mixed order, and customer references at the end.", assets["showroom"][0], "Request Product RFQ", "../request-a-quote/index.html")
     products += section("Showroom", "The showroom image is placed first as the product-display entrance.", gallery(assets["showroom"], "CHIKA showroom"))
-    products += section("Product Display Gallery", "Prepared product display images are intentionally mixed instead of grouped by original order.", gallery(shuffled_products, "CHIKA product display"))
+    products += section("Product Display Gallery", "Representative plastic, metal-plastic and assembled product examples for OEM sourcing evaluation.", product_gallery(shuffled_products))
     products += section("Customer References", "Customer reference images are placed at the end. Public logo use should be approved before launch.", gallery(assets["cases"], "CHIKA customer reference"))
     products += cta_band("Request Product RFQ")
     write("products/index.html", page_shell("Product Display | CHIKA Manufacturing", "Product display gallery for CHIKA injection molding and integrated manufacturing programs.", "Products", logo, products, depth=1))

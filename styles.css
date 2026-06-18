@@ -282,6 +282,15 @@ img {
   gap: 14px;
 }
 
+.hero-trust-note {
+  max-width: 520px;
+  margin: -18px 0 0;
+  color: var(--soft);
+  font-size: 12px;
+  font-weight: 720;
+  line-height: 1.45;
+}
+
 .hero-media {
   position: relative;
   min-height: 560px;
@@ -458,10 +467,13 @@ a.image-card:hover {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 16px;
+  width: 100%;
+  max-width: 100%;
 }
 
 .gallery-grid figure {
   overflow: hidden;
+  min-width: 0;
   margin: 0;
   border: 1px solid var(--line);
   border-radius: 14px;
@@ -469,6 +481,9 @@ a.image-card:hover {
 }
 
 .gallery-grid img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
   height: 300px;
   object-fit: contain;
   background: #fff;
@@ -476,6 +491,8 @@ a.image-card:hover {
 
 .zoomable {
   display: block;
+  width: 100%;
+  max-width: 100%;
   cursor: zoom-in;
 }
 
@@ -493,6 +510,7 @@ a.image-card:hover {
   padding: 13px 15px;
   font-size: 13px;
   font-weight: 740;
+  overflow-wrap: anywhere;
 }
 
 .lightbox-overlay {
@@ -887,6 +905,15 @@ td {
     font-size: 16px;
   }
 
+  .hero-actions {
+    gap: 10px;
+  }
+
+  .hero-trust-note {
+    margin-top: -18px;
+    font-size: 11px;
+  }
+
   .stat-grid,
   .card-grid.three,
   .card-grid.four,
@@ -972,6 +999,23 @@ td {
   .image-card img,
   .gallery-grid img {
     height: 240px;
+  }
+
+  .gallery-grid {
+    width: 100%;
+    max-width: 100%;
+    gap: 12px;
+  }
+
+  .product-gallery figure {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .product-gallery img {
+    aspect-ratio: 4 / 3;
+    height: auto;
+    object-fit: contain;
   }
 
   .lightbox-overlay {
