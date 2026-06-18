@@ -561,6 +561,38 @@ a.image-card:hover {
   font-size: 13px;
 }
 
+.faq-section {
+  background: #071122;
+}
+
+.faq-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.faq-item {
+  min-width: 0;
+  padding: 22px;
+  border: 1px solid var(--line-2);
+  border-radius: 8px;
+  background: rgba(15, 23, 42, 0.82);
+}
+
+.faq-item h3 {
+  margin: 0 0 10px;
+  color: var(--text);
+  font-size: 17px;
+  line-height: 1.32;
+}
+
+.faq-item p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.62;
+}
+
 .equipment-tables {
   display: grid;
   gap: 22px;
@@ -793,7 +825,7 @@ td {
     top: 0;
     right: 0;
     z-index: 80;
-    display: flex;
+    display: none;
     width: min(340px, 88vw);
     height: 100vh;
     align-items: stretch;
@@ -803,8 +835,7 @@ td {
     border-left: 1px solid var(--line-2);
     background: rgba(2, 8, 23, 0.98);
     box-shadow: -26px 0 70px rgba(0, 0, 0, 0.42);
-    transform: translateX(104%);
-    transition: transform 0.24s ease;
+    transform: none;
   }
 
   .main-nav a,
@@ -817,7 +848,7 @@ td {
   }
 
   .main-nav.open {
-    transform: translateX(0);
+    display: flex;
   }
 
   .header-contact {
@@ -852,7 +883,7 @@ td {
   .nav-backdrop {
     position: fixed;
     inset: 0;
-    z-index: 70;
+    z-index: 45;
     background: rgba(2, 8, 23, 0.62);
   }
 
@@ -862,7 +893,8 @@ td {
 
   .stat-grid,
   .card-grid.four,
-  .value-grid {
+  .value-grid,
+  .faq-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
@@ -930,6 +962,7 @@ td {
   .gallery-grid,
   .value-grid,
   .process-line,
+  .faq-grid,
   .rfq-form {
     grid-template-columns: 1fr;
   }

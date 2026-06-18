@@ -22,16 +22,7 @@ mainNav?.addEventListener("click", (event) => {
   const link = event.target.closest("a");
   if (!link) return;
 
-  setNavigationState(false);
-
-  const href = link.getAttribute("href") || "";
-  const isExternalAction = href.startsWith("mailto:") || href.startsWith("tel:") || href.includes("wa.me");
-  const opensElsewhere = link.target && link.target !== "_self";
-
-  if (!isExternalAction && !opensElsewhere) {
-    event.preventDefault();
-    window.location.href = link.href;
-  }
+  window.setTimeout(() => setNavigationState(false), 80);
 });
 
 document.addEventListener("click", (event) => {

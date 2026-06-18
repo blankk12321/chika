@@ -67,6 +67,28 @@ CHIKA_DATA = {
     "trusted_brands": ["Baseus", "Anker", "Huawei", "QCY", "Philips", "Sennheiser", "Logitech", "Xiaomi", "Nokia"],
 }
 
+FAQ_ITEMS = [
+    (
+        "What files do you need for a DFM review?",
+        "We prefer 3D CAD files in STEP, IGES, or X_T format, along with 2D drawings in PDF format for tolerances and critical dimensions.",
+    ),
+    (
+        "Can you support both tooling and injection molding production?",
+        "Yes, we provide full contract manufacturing services from initial tool design and mold making to mass injection molding production and final assembly.",
+    ),
+    (
+        "What materials can you process for injection molded parts?",
+        "We work with a wide range of engineering plastics including ABS, PC, Nylon (PA6/PA66), POM, PBT, PP, and high-performance polymers like PEEK and Ultem.",
+    ),
+    (
+        "Can you sign an NDA before reviewing our engineering drawings?",
+        "Absolutely. We understand intellectual property security. We can provide our standard B2B NDA or sign your company's NDA before you upload any files.",
+    ),
+]
+
+HOME_TITLE = "Custom Injection Molding China | Mold Making & DFM Review | Chika Manufacturing"
+HOME_DESCRIPTION = "Chika Manufacturing delivers precision custom injection molding, mold making, CNC machining, and DFM reviews for US/EU engineers and procurement teams."
+
 
 def slugify(value: str) -> str:
     value = value.lower()
@@ -76,6 +98,64 @@ def slugify(value: str) -> str:
 
 def esc(value: str) -> str:
     return html.escape(value, quote=True)
+
+
+def homepage_schema() -> str:
+    faq_entities = ",\n    ".join(
+        f"""{{
+      "@type": "Question",
+      "name": "{esc(question)}",
+      "acceptedAnswer": {{
+        "@type": "Answer",
+        "text": "{esc(answer)}"
+      }}
+    }}"""
+        for question, answer in FAQ_ITEMS
+    )
+    return f"""
+{{
+  "@context": "https://schema.org",
+  "@graph": [
+    {{
+      "@type": "Corporation",
+      "@id": "https://chikatech.com/#organization",
+      "name": "Chika Manufacturing",
+      "url": "https://chikatech.com/",
+      "logo": "https://chikatech.com/assets/images/brand/chika-logo.png",
+      "description": "Dongguan-based B2B manufacturing supplier focused on precision custom injection molding, mold tooling, CNC machining, metal-plastic integrated manufacturing and assembly.",
+      "address": {{
+        "@type": "PostalAddress",
+        "addressLocality": "Dongguan",
+        "addressRegion": "Guangdong",
+        "addressCountry": "CN"
+      }},
+      "areaServed": ["United States", "Canada", "United Kingdom", "Germany", "Australia"],
+      "contactPoint": {{
+        "@type": "ContactPoint",
+        "email": "yunimentalworking@gmail.com",
+        "telephone": "+86-18938580209",
+        "contactType": "sales"
+      }}
+    }},
+    {{
+      "@type": "Service",
+      "@id": "https://chikatech.com/#custom-injection-molding",
+      "name": "Custom Injection Molding China",
+      "provider": {{ "@id": "https://chikatech.com/#organization" }},
+      "serviceType": "Precision custom injection molding, mold making, DFM review, CNC machining and assembly",
+      "areaServed": ["United States", "Canada", "United Kingdom", "Germany", "Australia"],
+      "description": "Precision injection molding production with 66 injection molding machines, 50T-400T clamping capacity, mold tooling, CNC, EDM, inspection equipment and assembly support."
+    }},
+    {{
+      "@type": "FAQPage",
+      "@id": "https://chikatech.com/#faq",
+      "mainEntity": [
+        {faq_entities}
+      ]
+    }}
+  ]
+}}
+"""
 
 
 def clean_dir(path: Path) -> None:
@@ -209,15 +289,7 @@ def nav(current: str, logo: str) -> str:
 def page_shell(title: str, description: str, current: str, logo: str, body: str, depth: int = 0) -> str:
     global CURRENT_DEPTH
     CURRENT_DEPTH = depth
-    return f"""<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{esc(title)}</title>
-    <meta name="description" content="{esc(description[:158])}">
-    <link rel="stylesheet" href="{root_href('styles.css')}">
-    <script type="application/ld+json">
+    structured_data = homepage_schema() if title == HOME_TITLE else f"""
 {{
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
@@ -243,6 +315,29 @@ def page_shell(title: str, description: str, current: str, logo: str, body: str,
     "Insert Molding"
   ]
 }}
+"""
+    return f"""<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{esc(title)}</title>
+    <meta name="description" content="{esc(description[:158])}">
+    <link rel="icon" type="image/png" href="{root_href('assets/images/brand/chika-logo.png')}">
+    <link rel="apple-touch-icon" href="{root_href('assets/images/brand/chika-logo.png')}">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="CHIKA Manufacturing">
+    <meta property="og:title" content="{esc(title)}">
+    <meta property="og:description" content="{esc(description[:158])}">
+    <meta property="og:url" content="https://chikatech.com/">
+    <meta property="og:image" content="https://chikatech.com/assets/images/brand/chika-logo.png">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="{esc(title)}">
+    <meta name="twitter:description" content="{esc(description[:158])}">
+    <meta name="twitter:image" content="https://chikatech.com/assets/images/brand/chika-logo.png">
+    <link rel="stylesheet" href="{root_href('styles.css')}">
+    <script type="application/ld+json">
+{structured_data.strip()}
     </script>
   </head>
   <body>
@@ -266,10 +361,10 @@ def page_shell(title: str, description: str, current: str, logo: str, body: str,
 
 
 def hero(title: str, subtitle: str, image: str, primary: str = "Request a Quote", secondary: str | None = None, show_trust_note: bool = False) -> str:
-    secondary_label = "Request a Quote" if secondary and "request-a-quote" in secondary else "View Factory Strength"
+    secondary_label = "Get Free DFM Review" if secondary and "request-a-quote" in secondary else "View Factory Strength"
     second = f'<a class="button ghost" href="{root_href(secondary)}">{secondary_label}</a>' if secondary else ""
     trust_note = (
-        '\n          <p class="hero-trust-note">Upload your 3D files (STEP/STP). Complete confidentiality guaranteed with instant NDA.</p>'
+        '\n          <p class="hero-trust-note">Upload 3D files (STEP/STP). Confidential DFM feedback within 24 hours. NDA Available · Tolerances up to ±0.02mm · Injection Molding + Tooling + Assembly.</p>'
         if show_trust_note else ""
     )
     return f"""
@@ -372,6 +467,22 @@ def product_gallery(images: list[str]) -> str:
     return '<div class="gallery-grid product-gallery">' + "".join(figures) + "</div>"
 
 
+def faq_section() -> str:
+    return (
+        '<div class="faq-grid">'
+        + "".join(
+            f"""
+            <article class="faq-item">
+              <h3>{esc(question)}</h3>
+              <p>{esc(answer)}</p>
+            </article>
+            """
+            for question, answer in FAQ_ITEMS
+        )
+        + "</div>"
+    )
+
+
 def equipment_table(groups: list[str] | None = None) -> str:
     groups = groups or ["injection", "tooling", "metal", "quality"]
     labels = {
@@ -420,6 +531,7 @@ def rfq_panel() -> str:
           <label>Project Type<select name="projectType"><option>Injection Molding</option><option>Injection Mold Tooling</option><option>Metal-Plastic Assembly</option><option>Sheet Metal Fabrication</option><option>Full Turnkey Contract Manufacturing</option></select></label>
           <label>Material<input name="material" placeholder="ABS, PC, SECC..."></label>
           <label>Estimated Qty<input name="annualVolume" placeholder="e.g. 1,000 pcs"></label>
+          <label>Target Market<select name="targetMarket"><option>United States</option><option>Canada</option><option>United Kingdom</option><option>Germany</option><option>Australia</option><option>European Union</option><option>Other Market</option></select></label>
           <label>Surface Finish<input name="surfaceFinish" placeholder="Texture, plating, painting..."></label>
           <label class="full-field">Upload your drawings or project files <span class="field-hint">Supported formats: PDF, STEP, STP, IGES, DXF, DWG, JPG, PNG, ZIP. Max file size: 30MB per file, up to 5 files. For packages over 100MB, please email us.</span><input name="drawingUpload" type="file" multiple accept=".pdf,.step,.stp,.iges,.igs,.dxf,.dwg,.jpg,.jpeg,.png,.zip"></label>
           <label class="full-field">Project Details<textarea name="message" rows="5" placeholder="Describe tolerances, finish, assembly, testing, packaging or launch timing..." required></textarea></label>
@@ -495,8 +607,8 @@ def build_pages(assets: dict[str, list[str]], logo: str) -> None:
         "Precision Injection Molding & Metal-Plastic Integrated Manufacturing",
         "CHIKA Manufacturing helps global brands turn complex designs into high-quality production components. From custom mold tooling and high-precision injection molding to sheet metal fabrication, surface finishing and full assembly.",
         hero_img,
-        "Request a Quote",
-        "factory-strength/index.html",
+        "Upload 3D Drawing",
+        "request-a-quote/index.html",
         True,
     )
     home += section("One-Stop Manufacturing Capacity", "A supplier-screening snapshot built for US hardware teams and purchasing managers.", stat_grid(CHIKA_DATA["stats"]), "dense")
@@ -524,8 +636,9 @@ def build_pages(assets: dict[str, list[str]], logo: str) -> None:
         + image_card("Quality Lab", "Hexagon CMM, Nikon 2.5D, RoHS and reliability testing support.", quality_images[0])
         + "</div>",
     )
+    home += section("Technical FAQ", "Answers for engineers and procurement teams before sending an RFQ.", faq_section(), "faq-section")
     home += cta_band()
-    write("index.html", page_shell("CHIKA Manufacturing | Precision Injection Molding China", "CHIKA Manufacturing provides precision injection molding, tooling, sheet metal, assembly and QC in Dongguan, China.", "Home", logo, home))
+    write("index.html", page_shell(HOME_TITLE, HOME_DESCRIPTION, "Home", logo, home))
 
     CURRENT_DEPTH = 1
     injection = hero(
@@ -534,6 +647,7 @@ def build_pages(assets: dict[str, list[str]], logo: str) -> None:
         hero_img,
         "Request Injection Molding Quote",
         "../equipment/index.html",
+        True,
     )
     injection += section("Injection Capacity", "Electric precision machines and hydraulic batch-production machines support both tight-tolerance parts and stable mass production.", stat_grid([
         ("66 Sets", "Injection molding machines"),
@@ -553,6 +667,7 @@ def build_pages(assets: dict[str, list[str]], logo: str) -> None:
         mold_image,
         "Request Tooling Quote",
         "../equipment/index.html",
+        True,
     )
     tooling += section("Tooling Capabilities", "Our mold development workflow helps buyers reduce tooling risk before production approval.", value_strips(["DFM Analysis", "Mold Design", "CNC Machining", "EDM", "Wire Cutting", "Grinding", "Mold Trial", "Mold Maintenance", "45 Mold Technicians"]))
     tooling += section("Tooling Equipment", "Data-led proof for injection mold maker qualification.", equipment_table(["tooling"]))
@@ -566,6 +681,7 @@ def build_pages(assets: dict[str, list[str]], logo: str) -> None:
         capability_images[0],
         "Request Integrated Manufacturing Quote",
         "../quality-control/index.html",
+        True,
     )
     integrated += section("Why It Matters", "US buyers reduce supplier handoffs when molding, metal parts, finishing, assembly and inspection are handled by one manufacturing partner.", value_strips(["Plastic housings + metal brackets", "Insert and structural programs", "Integrated assembly", "ERP / MES production coordination", "Aging and functional testing", "Export-ready packaging"]))
     integrated += section("Factory Proof Images", "Visual proof for the one-stop manufacturing position.", gallery(capability_images + assets["products"][:6], "Metal plastic integrated manufacturing"))
@@ -578,6 +694,7 @@ def build_pages(assets: dict[str, list[str]], logo: str) -> None:
         assets["sheet"][0],
         "Request Sheet Metal Quote",
         "../equipment/index.html",
+        True,
     )
     sheet += section("Sheet Metal Capability", "A heavy manufacturing base for enclosures, brackets, kiosk structures and integrated device shells.", equipment_table(["metal"]))
     sheet += section("Sheet Metal Gallery", "Real sheet metal and factory-strength images.", gallery(assets["sheet"] + capability_images[:2], "Sheet metal fabrication"))
