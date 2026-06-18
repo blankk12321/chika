@@ -104,7 +104,9 @@ async function storeRfq(record, env) {
 }
 
 async function notifyByEmail(record, env) {
-  if (!env.RESEND_API_KEY || !env.RFQ_TO_EMAIL) {
+  const recipients = parseEmailList(env.RFQ_TO_EMAIL);
+
+  if (!env.RESEND_API_KEY || recipients.length === 0) {
     console.log("RFQ email notification skipped: RESEND_API_KEY or RFQ_TO_EMAIL is not configured.");
     console.log(JSON.stringify(record));
     return;
@@ -134,7 +136,7 @@ async function notifyByEmail(record, env) {
     },
     body: JSON.stringify({
       from: env.RFQ_FROM_EMAIL || "CHIKA Manufacturing RFQ <onboarding@resend.dev>",
-      to: [env.RFQ_TO_EMAIL],
+      to: recipients,
       subject: `CHIKA Manufacturing RFQ - ${record.projectType}`,
       text: lines.join("\n"),
       reply_to: record.email,
@@ -145,6 +147,13 @@ async function notifyByEmail(record, env) {
     const text = await response.text();
     throw new Error(`Email provider rejected RFQ notification: ${text}`);
   }
+}
+
+function parseEmailList(value) {
+  return String(value || "")
+    .split(",")
+    .map((email) => email.trim())
+    .filter(isValidEmail);
 }
 
 function json(payload, status, env) {

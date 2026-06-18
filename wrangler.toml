@@ -4,12 +4,11 @@ compatibility_date = "2026-06-16"
 
 [vars]
 ALLOWED_ORIGIN = "https://www.chikatech.com"
-RFQ_TO_EMAIL = "yunimentalworking@gmail.com"
+RFQ_TO_EMAIL = "yunimentalworking@gmail.com,blankk12321@gmail.com"
 RFQ_FROM_EMAIL = "Chika ACT RFQ <rfq@chikatech.com>"
 
-# Optional KV binding for RFQ record retention.
-# Create a namespace first, then uncomment and fill the IDs:
-#
+# KV binding for RFQ record retention.
+# Create the namespace in Cloudflare, then fill the IDs below:
 # [[kv_namespaces]]
 # binding = "RFQ_KV"
 # id = "replace-with-production-kv-namespace-id"

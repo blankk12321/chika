@@ -49,11 +49,11 @@ Required/optional Worker settings:
 
 ```text
 ALLOWED_ORIGIN=https://www.chikatech.com
-RFQ_TO_EMAIL=yunimentalworking@gmail.com
+RFQ_TO_EMAIL=yunimentalworking@gmail.com,blankk12321@gmail.com
 RFQ_FROM_EMAIL=Chika ACT RFQ <rfq@chikatech.com>
 RESEND_API_KEY=<secret, optional until email sending is ready>
 RFQ_LOG_URL=<optional external logging endpoint>
-RFQ_KV=<optional KV namespace binding>
+RFQ_KV=<KV namespace binding for stored RFQ records>
 ```
 
 Without `RESEND_API_KEY`, the Worker still validates and accepts RFQs but only logs the request. The frontend also provides direct email and WhatsApp fallback details.

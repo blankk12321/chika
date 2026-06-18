@@ -41,11 +41,11 @@ Set Worker variables/secrets:
 
 ```text
 ALLOWED_ORIGIN=https://www.chikatech.com
-RFQ_TO_EMAIL=yunimentalworking@gmail.com
+RFQ_TO_EMAIL=yunimentalworking@gmail.com,blankk12321@gmail.com
 RFQ_FROM_EMAIL=Chika ACT RFQ <rfq@chikatech.com>
 RESEND_API_KEY=<secret if email notifications are enabled>
 RFQ_LOG_URL=<optional>
-RFQ_KV=<optional KV binding>
+RFQ_KV=<KV binding for stored RFQ records>
 ```
 
 ## DNS
